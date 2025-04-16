@@ -9,7 +9,7 @@ The **Vendor Performance Cockpit** project aims to create a comprehensive, data-
 
 ## Key Features
 
-- **Custom Data Model**: A set of 3 to 5 related tables populated with mock data, simulating real-world business scenarios.
+- **Custom Data Model**: A set of 7 related tables populated with mock data, simulating real-world business scenarios.
 - **CDS Views**: Creation of 7 basic CDS views to deliver essential insights into vendor performance metrics.
 - **Fiori Elements**: Responsive and user-friendly interface built using Fiori Elements for smooth data visualization.
 - **Realistic Business Context**: A focus on practical and scalable solutions using real business data and requirements.
