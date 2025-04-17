@@ -1,7 +1,13 @@
+@AbapCatalog.viewEnhancementCategory: [#NONE]
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Purchase order header - Basic'
 @Metadata.ignorePropagatedAnnotations: false
-define view entity ZMMFI_I_PURCHORD as select from zmmfit_purchord
+@ObjectModel.usageType:{
+    serviceQuality: #X,
+    sizeCategory: #S,
+    dataClass: #MIXED
+}
+define view entity zmmfi_i_purchord as select from zmmfit_purchord
 {
     key po_id as PoId,
     purchase_date as PurchaseDate,
