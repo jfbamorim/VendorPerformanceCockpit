@@ -7,6 +7,10 @@ class zmmfi_cl_mockupdata definition public final create public .
              populate_po_header
                 returning value(operation_sucessfully) type sysubrc,
              populate_po_item
+                returning value(operation_sucessfully) type sysubrc,
+             populate_invoice
+                returning value(operation_sucessfully) type sysubrc,
+             populate_goods_receipt
                 returning value(operation_sucessfully) type sysubrc.
 endclass.
 
@@ -17,14 +21,24 @@ class zmmfi_cl_mockupdata implementation.
 *      out->write( 'Vendor data successfully inserted' ).
 *    endif.
 
-    data(po_header_success) = me->populate_po_header( ).
-    if po_header_success = 0.
-      out->write( 'PO Header data successfully inserted' ).
-    endif.
+*    data(po_header_success) = me->populate_po_header( ).
+*    if po_header_success = 0.
+*      out->write( 'PO Header data successfully inserted' ).
+*    endif.
+*
+*    data(po_item_success) = me->populate_po_item( ).
+*    if po_item_success = 0.
+*      out->write( 'PO Item data successfully inserted' ).
+*    endif.
 
-    data(po_item_success) = me->populate_po_item( ).
-    if po_item_success = 0.
-      out->write( 'PO Item data successfully inserted' ).
+*    data(invoice_success) = me->populate_invoice( ).
+*    if invoice_success = 0.
+*      out->write( 'Invoice data successfully inserted' ).
+*    endif.
+
+    data(goods_receipt_success) = me->populate_goods_receipt( ).
+    if goods_receipt_success = 0.
+      out->write( 'Goods receipt data successfully inserted' ).
     endif.
   endmethod.
 
@@ -212,6 +226,42 @@ method populate_vendor_data.
 '20240501' ) to po_items.
 
     modify zmmfit_po_item from table @po_items.
+    operation_sucessfully = sy-subrc.
+  endmethod.
+
+  method populate_invoice.
+    data lt_invoice type standard table of zmmfit_invoice.
+
+    append value zmmfit_invoice( invoice_id = 'inv000001' item_id = 10 invoice_date = '20240420' amount = '1200.50' currency = 'EUR' is_matched = 'X' comments = 'Fatura emitida e validada' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000002' item_id = 20 invoice_date = '20240421' amount = '540.00'  currency = 'EUR' is_matched = 'X' comments = 'Tudo conforme' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000003' item_id = 30 invoice_date = '20240422' amount = '3000.00' currency = 'EUR' is_matched = ''   comments = 'Valor divergente, pendente de aprovação' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000004' item_id = 40 invoice_date = '20240423' amount = '870.00'  currency = 'EUR' is_matched = 'X' comments = 'Recebida sem danos' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000005' item_id = 50 invoice_date = '20240424' amount = '145.90' currency = 'EUR' is_matched = ''   comments = 'Erro no código do produto' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000006' item_id = 60 invoice_date = '20240425' amount = '12500.00' currency = 'EUR' is_matched = 'X' comments = 'Entrega antecipada, validada' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000007' item_id = 70 invoice_date = '20240426' amount = '2300.00'  currency = 'EUR' is_matched = ''   comments = 'Item devolvido, aguardando crédito' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000008' item_id = 80 invoice_date = '20240427' amount = '4890.70' currency = 'EUR' is_matched = 'X' comments = 'Processo concluído com sucesso' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000009' item_id = 90 invoice_date = '20240428' amount = '980.00'  currency = 'EUR' is_matched = 'X' comments = 'Produto substituído antes da entrega' ) to lt_invoice.
+    append value zmmfit_invoice( invoice_id = 'inv000010' item_id = 100 invoice_date = '20240429' amount = '560.00' currency = 'EUR' is_matched = ''   comments = 'Fatura duplicada, em análise' ) to lt_invoice.
+
+    modify zmmfit_invoice from table @lt_invoice.
+    operation_sucessfully = sy-subrc.
+  endmethod.
+
+  method populate_goods_receipt.
+    data lt_goods_rcp type standard table of zmmfit_goods_rcp.
+
+    append value zmmfit_goods_rcp( gr_id = 'gr00000001' item_id = 10 delivery_date = '20240421' quantity_received = '10.00' unit = 'PC' damaged = ''   comments = 'Entrega completa, sem danos' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000002' item_id = 20 delivery_date = '20240422' quantity_received = '15.00' unit = 'KG' damaged = ''   comments = 'Recebido corretamente' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000003' item_id = 30 delivery_date = '20240423' quantity_received = '50.00' unit = 'LT' damaged = 'X'  comments = 'Danos na embalagem externa' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000004' item_id = 40 delivery_date = '20240424' quantity_received = '3.00'  unit = 'UN' damaged = ''   comments = 'Conferido, sem irregularidades' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000005' item_id = 50 delivery_date = '20240425' quantity_received = '12.00' unit = 'PC' damaged = 'X'  comments = 'Itens danificados no transporte' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000006' item_id = 60 delivery_date = '20240426' quantity_received = '100.00' unit = 'KG' damaged = ''  comments = 'Quantidade confirmada' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000007' item_id = 70 delivery_date = '20240427' quantity_received = '30.00' unit = 'LT' damaged = 'X'  comments = 'Devolução parcial agendada' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000008' item_id = 80 delivery_date = '20240428' quantity_received = '20.00' unit = 'UN' damaged = ''  comments = 'Recebido e validado' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000009' item_id = 90 delivery_date = '20240429' quantity_received = '8.00'  unit = 'PC' damaged = ''  comments = 'Entrega parcial prevista' ) to lt_goods_rcp.
+    append value zmmfit_goods_rcp( gr_id = 'gr00000010' item_id = 100 delivery_date = '20240430' quantity_received = '25.00' unit = 'PC' damaged = 'X' comments = 'Rutura no lote recebido' ) to lt_goods_rcp.
+
+    modify zmmfit_goods_rcp from table @lt_goods_rcp.
     operation_sucessfully = sy-subrc.
   endmethod.
 
