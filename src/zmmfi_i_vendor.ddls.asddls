@@ -1,6 +1,12 @@
+@AbapCatalog.viewEnhancementCategory: [#NONE]
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'vendor - basic'
 @Metadata.ignorePropagatedAnnotations: false
+@ObjectModel.usageType:{
+    serviceQuality: #X,
+    sizeCategory: #S,
+    dataClass: #MIXED
+}
 define view entity zmmfi_i_vendor as select from zmmfit_vendor
 {
     key vendor_id as vendorid,
