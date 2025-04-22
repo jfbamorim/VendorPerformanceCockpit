@@ -7,11 +7,11 @@
     sizeCategory: #S,
     dataClass: #MIXED
 }
-define view entity ZC_VENDORS_FILTERS as select from zmmfi_i_vendor
+define view entity ZC_VENDORS_FILTERS as select distinct from zmmfi_i_vendor
 {
     key vendorid,
-    country,
-    category,
+    key country,
+    key category,
     substring(registrationdate,5 ,2) as registrationdate,
     createdat,
     createdby
