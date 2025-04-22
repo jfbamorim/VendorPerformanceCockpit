@@ -10,6 +10,7 @@
 define view entity ZMMFI_I_VENDOR_EV as select from zmmfit_vendor_ev
 {
     key eval_id as EvalId,
+    vendor_id as VendorId,
     period as Period,
     on_time_delivery_rate as OnTimeDeliveryRate,
     average_delay_days as AverageDelayDays,
